@@ -22,15 +22,15 @@ public class Book {
     private Long id;
 
     @Column(name = "title")
-    @Size(min = 1, max = 255)
-    @NotNull
-    @NotBlank
+    @Size(min = 1, max = 255, message = "Title must be between 1 and 255 characters")
+    @NotNull(message = "title cannot be null")
+    @NotBlank(message = "title cannot be blank")
     private String title;
 
     @Column(name = "author")
-    @Size(min = 1, max = 255)
-    @NotNull
-    @NotBlank
+    @Size(min = 1, max = 255, message = "Author must be between 1 and 255 characters")
+    @NotNull(message = "author cannot be null")
+    @NotBlank(message = "author cannot be blank")
     private String author;
 
     @Column(name = "description")

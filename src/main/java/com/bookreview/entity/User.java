@@ -1,6 +1,7 @@
 package com.bookreview.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -22,15 +23,16 @@ public class User {
     private Long id;
 
     @Column(name = "username")
-    @Size(min = 4, max = 50)
-    @NotNull
-    @NotBlank
+    @Size(min = 4, max = 50, message = "Username must be between 4 and 50 characters")
+    @NotNull(message = "Username cannot be null")
+    @NotBlank(message = "Username cannot be empty")
     private String username;
 
     @Column(name = "email")
-    @Size(min = 7, max = 100)
-    @NotNull
-    @NotBlank
+    @Size(min = 7, max = 100, message = "email must be between 7 and 100 characters")
+    @NotNull(message = "Email cannot be null")
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Please provide a valid email address")
     private String email;
 
 }

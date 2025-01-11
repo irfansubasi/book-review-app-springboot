@@ -24,7 +24,7 @@ A RESTful API for managing book reviews. This application allows users to create
 
 ## Setup and Installation
 
-## Database Setup
+### Database Setup
 
 To set up the database schema, create a PostgreSQL database named `bookreviewdb` and execute the following SQL queries:
 

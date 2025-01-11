@@ -2,6 +2,8 @@ package com.bookreview.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -41,6 +43,22 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponse, reviewException.getStatus());
+    }
+
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<ErrorResponse> handleValidationExceptions(BindException ex) {
+        StringBuilder message = new StringBuilder();
+        for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
+            message.append(fieldError.getDefaultMessage()).append(" ");
+        }
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                message.toString(),
+                HttpStatus.BAD_REQUEST,
+                HttpStatus.BAD_REQUEST.value(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler

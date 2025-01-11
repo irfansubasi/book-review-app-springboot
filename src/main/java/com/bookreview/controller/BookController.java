@@ -3,14 +3,17 @@ package com.bookreview.controller;
 
 import com.bookreview.entity.Book;
 import com.bookreview.service.BookServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/books")
+@Validated
 public class BookController {
 
     private BookServiceImpl bookService;
@@ -38,12 +41,12 @@ public class BookController {
     }
 
     @PostMapping
-    public Book createBook(@RequestBody Book book) {
+    public Book createBook(@RequestBody @Valid Book book) {
         return bookService.createBook(book);
     }
 
     @PutMapping("/{id}")
-    public Book updateBook(@PathVariable Long id, @RequestBody Book book) {
+    public Book updateBook(@PathVariable Long id, @RequestBody @Valid Book book) {
         return bookService.updateBook(id, book);
     }
 

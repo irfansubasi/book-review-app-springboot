@@ -24,11 +24,11 @@ public class Review {
     private Long id;
 
     @ManyToOne
-    @Column(name = "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @Column(name = "book_id")
+    @JoinColumn(name = "book_id")
     private Book book;
 
     @Column(name = "rating")

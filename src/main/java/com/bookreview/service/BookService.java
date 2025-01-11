@@ -21,4 +21,7 @@ public interface BookService {
     //delete book
     boolean deleteBook(Long id);
 
+    //get avg rating
+    double getAverageRating(Long id);
+
 }

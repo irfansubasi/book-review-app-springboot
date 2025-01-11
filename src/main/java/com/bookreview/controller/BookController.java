@@ -4,6 +4,7 @@ package com.bookreview.controller;
 import com.bookreview.entity.Book;
 import com.bookreview.service.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,12 @@ public class BookController {
     @GetMapping("/{id}")
     public Book getBookById(@PathVariable Long id) {
         return bookService.getBookById(id);
+    }
+
+    @GetMapping("/{bookId}/average-rating")
+    public ResponseEntity<Double> getAverageRating(@PathVariable Long bookId) {
+        double averageRating = bookService.getAverageRating(bookId);
+        return ResponseEntity.ok(averageRating);
     }
 
     @PostMapping

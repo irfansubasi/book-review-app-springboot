@@ -2,9 +2,12 @@ package com.bookreview.service;
 
 import com.bookreview.entity.Book;
 import com.bookreview.entity.Review;
+import com.bookreview.exception.BookException;
+import com.bookreview.exception.ReviewException;
 import com.bookreview.repository.BookRepository;
 import com.bookreview.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,24 +27,33 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public List<Review> getReviewsByBook(Long bookId) {
-        Book book = bookRepository.findById(bookId).orElse(null);
-        if (book != null) {
-            return reviewRepository.getByBookId(book.getId());
+        Book book = bookRepository.findById(bookId).orElseThrow(() ->
+                new BookException("Book with ID " + bookId + " not found", HttpStatus.NOT_FOUND));
+
+        List<Review> reviews = reviewRepository.getByBookId(book.getId());
+        if (reviews.isEmpty()) {
+            throw new ReviewException("No reviews found for Book with ID " + bookId, HttpStatus.NOT_FOUND);
         }
-        return new ArrayList<>();
+
+        return reviews;
     }
 
     @Override
     public Review addReview(Review review) {
+        if (review == null) {
+            throw new ReviewException("Review cannot be null", HttpStatus.BAD_REQUEST);
+        }
+
         return reviewRepository.save(review);
     }
 
     @Override
     public boolean deleteReview(Long reviewId) {
-        if (reviewRepository.existsById(reviewId)) {
-            reviewRepository.deleteById(reviewId);
-            return true;
+        if (!reviewRepository.existsById(reviewId)) {
+            throw new ReviewException("Review with ID " + reviewId + " not found", HttpStatus.NOT_FOUND);
         }
-        return false;
+
+        reviewRepository.deleteById(reviewId);
+        return true;
     }
 }
